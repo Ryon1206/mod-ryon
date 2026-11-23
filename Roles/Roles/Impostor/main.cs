@@ -1,5 +1,6 @@
 using BepInEx;
 using BepInEx.Unity.IL2CPP;
+using ModRyon.Roles.Impostor;
 
 namespace ModRyon
 {
@@ -8,6 +9,7 @@ namespace ModRyon
     {
         public override void Load()
         {
+            BatSettings.Initialize(Config);
             Log.LogInfo("ModRyon loaded!");
         }
     }
