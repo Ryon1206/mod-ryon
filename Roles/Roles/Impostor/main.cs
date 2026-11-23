@@ -1,5 +1,7 @@
+using System.Reflection;
 using BepInEx;
 using BepInEx.Unity.IL2CPP;
+using HarmonyLib;
 using ModRyon.Roles.Impostor;
 
 namespace ModRyon
@@ -10,6 +12,10 @@ namespace ModRyon
         public override void Load()
         {
             BatSettings.Initialize(Config);
+
+            var harmony = new Harmony("ryon.modryon");
+            harmony.PatchAll(Assembly.GetExecutingAssembly());
+
             Log.LogInfo("ModRyon loaded!");
         }
     }
