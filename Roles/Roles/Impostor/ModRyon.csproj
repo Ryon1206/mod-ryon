@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <AssemblyName>ModRyon</AssemblyName>
+    <RootNamespace>ModRyon</RootNamespace>
+    <LangVersion>preview</LangVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="$(AmongUs)\BepInEx\core\*.dll" />
+    <Reference Include="$(AmongUs)\BepInEx\interop\*.dll" />
+    <EmbeddedResource Include="Resources\**\*" />
+  </ItemGroup>
+
+  <Target Name="CopyMod" AfterTargets="Build" Condition="'$(AmongUs)' != ''">
+    <Copy SourceFiles="$(OutputPath)$(AssemblyName).dll"
+          DestinationFolder="$(AmongUs)\BepInEx\plugins\" />
+  </Target>
+</Project>
