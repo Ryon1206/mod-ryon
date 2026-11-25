@@ -6,11 +6,11 @@ namespace ModRyon.Options
 {
     public class BatOptions : AbstractOptionGroup
     {
-        public override string GroupName => "こうもり";
+        public override string GroupName => "options.batSettings";
         public override Color GroupColor => Color.white;
         public override bool ShowInMatchInfoGuide => true;
 
-        [ModdedNumberOption("こうもりの人数", 0, 15)]
+        [ModdedNumberOption("options.batSettings.count", min: 0, max: 15)]
         public int BatCount { get; set; } = 1;
     }
 }
