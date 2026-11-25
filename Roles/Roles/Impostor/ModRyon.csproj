@@ -7,13 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Reference Include="$(AmongUs)\BepInEx\core\*.dll" />
-    <Reference Include="$(AmongUs)\BepInEx\interop\*.dll" />
-    <EmbeddedResource Include="Resources\**\*" />
+    <PackageReference Include="AllOfUs.MiraAPI" Version="0.6.0" />
   </ItemGroup>
 
-  <Target Name="CopyMod" AfterTargets="Build" Condition="'$(AmongUs)' != ''">
-    <Copy SourceFiles="$(OutputPath)$(AssemblyName).dll"
-          DestinationFolder="$(AmongUs)\BepInEx\plugins\" />
-  </Target>
+  <ItemGroup>
+    <Reference Include="$(AmongUs)\BepInEx\core\*.dll" />
+    <Reference Include="$(AmongUs)\BepInEx\interop\*.dll" />
+  </ItemGroup>
 </Project>
