@@ -2,10 +2,12 @@ namespace ModRyon.Core
 {
     public static class RoleOptionDefinitions
     {
+        // こうもり
         public const int BatCountId = 1000;
         public const int BatDeathDelayId = 1001;
         public const int BatGlowDurationId = 1002;
 
+        // 爆弾魔
         public const int BombardierCountId = 2000;
         public const int BombardierExplosionTimeId = 2001;
 
