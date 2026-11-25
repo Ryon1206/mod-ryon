@@ -3,6 +3,7 @@ using BepInEx.Unity.IL2CPP;
 using HarmonyLib;
 using MiraAPI;
 using MiraAPI.PluginLoading;
+using MiraAPI.Translation;
 using Reactor;
 
 namespace ModRyon
@@ -13,6 +14,14 @@ namespace ModRyon
     [BepInDependency(MiraApiPlugin.Id)]
     public class Main : BasePlugin, IMiraPlugin
     {
+        public Main()
+        {
+            MiraLocaleManager.Register(
+                "ryon.modryon",
+                typeof(Main).Assembly
+            );
+        }
+
         public Harmony Harmony { get; } = new("ryon.modryon");
 
         public string OptionsTitleText => "Mod-Ryon";
