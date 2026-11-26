@@ -14,7 +14,7 @@ namespace ModRyon.Core
                 GameData.Instance == null)
                 return;
 
-            // 全員に役職設定を同期
+            // 役職設定を同期
             RoleSettingsRpc.Send();
 
             var impostors = new List<byte>();
