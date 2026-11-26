@@ -10,6 +10,7 @@ namespace ModRyon.Core
                 RoleOptionDefinitions.BatDeathDelayId => RoleSettings.BatDeathDelay,
                 RoleOptionDefinitions.BatGlowDurationId => RoleSettings.BatGlowDuration,
                 RoleOptionDefinitions.BombardierCountId => RoleSettings.BombardierCount,
+                RoleOptionDefinitions.BombardierBombCountId => RoleSettings.BombardierBombCount,
                 RoleOptionDefinitions.BombardierExplosionTimeId => RoleSettings.BombardierExplosionTime,
                 _ => -1
             };
@@ -37,6 +38,11 @@ namespace ModRyon.Core
                 case RoleOptionDefinitions.BombardierCountId:
                     if (value < 0 || value > 15) return false;
                     RoleSettings.BombardierCount = value;
+                    return true;
+
+                case RoleOptionDefinitions.BombardierBombCountId:
+                    if (value < 1 || value > 15) return false;
+                    RoleSettings.BombardierBombCount = value;
                     return true;
 
                 case RoleOptionDefinitions.BombardierExplosionTimeId:
