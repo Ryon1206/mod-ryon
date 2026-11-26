@@ -13,7 +13,13 @@ namespace ModRyon.Core
             if (RoleInfoManager.Get(role) == null)
                 return false;
 
+            // ホスト側に役職を保存
             RoleManager.Assign(playerId, role);
+
+            // 全プレイヤーに役職を同期
+            CustomRoleRpc.Send(playerId, role);
+
+            // 試合ログに記録
             MatchLog.RoleAssigned(playerName, role);
 
             return true;
@@ -23,6 +29,7 @@ namespace ModRyon.Core
         {
             RoleManager.Clear();
             MatchLog.Clear();
+            MatchLogPublisher.Reset();
         }
     }
 }
