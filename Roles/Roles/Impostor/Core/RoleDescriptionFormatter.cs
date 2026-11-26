@@ -12,6 +12,7 @@ namespace ModRyon.Core
             return
                 $"【{info.Name}】\n" +
                 $"陣営：{info.Faction}\n" +
+                $"能力：{info.Description}\n" +
                 $"{info.FlavorText}";
         }
     }
