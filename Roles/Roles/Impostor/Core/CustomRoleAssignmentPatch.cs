@@ -1,66 +1,56 @@
+using System.Collections.Generic;
+using AmongUs.GameOptions;
 using HarmonyLib;
 
 namespace ModRyon.Core
 {
-    [HarmonyPatch(
-        typeof(RoleManager),
-        nameof(RoleManager.SelectRoles)
-    )]
+    [HarmonyPatch(typeof(global::RoleManager), nameof(global::RoleManager.SelectRoles))]
     public static class CustomRoleAssignmentPatch
     {
         public static void Postfix()
         {
-            // ホスト以外は処理しない
             if (AmongUsClient.Instance == null ||
-                !AmongUsClient.Instance.AmHost)
+                !AmongUsClient.Instance.AmHost ||
+                GameData.Instance == null)
                 return;
 
-            if (GameData.Instance == null)
-                return;
+            var impostors = new List<byte>();
+            var playerNames = new Dictionary<byte, string>();
 
-            // インポスターを集める
-            var impostors = new System.Collections.Generic.List<byte>();
-            var playerNames =
-                new System.Collections.Generic.Dictionary<byte, string>();
-
-            foreach (NetworkedPlayerInfo player
-                in GameData.Instance.AllPlayers)
+            foreach (NetworkedPlayerInfo data in GameData.Instance.AllPlayers)
             {
-                if (player == null ||
-                    player.Object == null ||
-                    player.IsDead)
+                if (data == null || data.Object == null || data.IsDead)
                     continue;
 
-                if (player.Object.Data.Role.Role != RoleTypes.Impostor)
+                RoleTypes role = data.Role.Role;
+
+                if (role != RoleTypes.Impostor &&
+                    role != RoleTypes.Shapeshifter &&
+                    role != RoleTypes.Phantom &&
+                    role != RoleTypes.Viper)
                     continue;
 
-                impostors.Add(player.PlayerId);
-                playerNames[player.PlayerId] = player.PlayerName;
+                impostors.Add(data.PlayerId);
+                playerNames[data.PlayerId] = data.PlayerName;
             }
 
-            // 役職をランダムに抽選
             var assignments =
                 RoleAssignmentPlanner.CreateAssignments(impostors);
 
-            // 抽選結果を割り当てる
-            foreach (var assignment in assignments)
+            foreach (var pair in assignments)
             {
-                byte playerId = assignment.Key;
-                CustomRole role = assignment.Value;
-
-                if (!playerNames.TryGetValue(
-                    playerId,
-                    out string playerName))
-                    playerName = "プレイヤー";
+                string name = playerNames.TryGetValue(
+                    pair.Key, out var playerName)
+                    ? playerName
+                    : $"Player {pair.Key}";
 
                 RoleAssignmentService.Assign(
-                    playerId,
-                    playerName,
-                    role
+                    pair.Key,
+                    name,
+                    pair.Value
                 );
             }
 
-            // 試合ログを公開
             MatchLogPublisher.Publish();
         }
     }
