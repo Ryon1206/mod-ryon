@@ -1,4 +1,3 @@
-```csharp
 namespace ModRyon.Core
 {
     public static class RoleOptionManager
@@ -7,21 +6,11 @@ namespace ModRyon.Core
         {
             return id switch
             {
-                RoleOptionDefinitions.BatCountId =>
-                    RoleSettings.BatCount,
-
-                RoleOptionDefinitions.BatDeathDelayId =>
-                    RoleSettings.BatDeathDelay,
-
-                RoleOptionDefinitions.BatGlowDurationId =>
-                    RoleSettings.BatGlowDuration,
-
-                RoleOptionDefinitions.BombardierCountId =>
-                    RoleSettings.BombardierCount,
-
-                RoleOptionDefinitions.BombardierExplosionTimeId =>
-                    RoleSettings.BombardierExplosionTime,
-
+                RoleOptionDefinitions.BatCountId => RoleSettings.BatCount,
+                RoleOptionDefinitions.BatDeathDelayId => RoleSettings.BatDeathDelay,
+                RoleOptionDefinitions.BatGlowDurationId => RoleSettings.BatGlowDuration,
+                RoleOptionDefinitions.BombardierCountId => RoleSettings.BombardierCount,
+                RoleOptionDefinitions.BombardierExplosionTimeId => RoleSettings.BombardierExplosionTime,
                 _ => -1
             };
         }
@@ -41,8 +30,7 @@ namespace ModRyon.Core
                     return true;
 
                 case RoleOptionDefinitions.BatGlowDurationId:
-                    if (value != -1 && (value < 3 || value > 30))
-                        return false;
+                    if (value != -1 && (value < 3 || value > 30)) return false;
                     RoleSettings.BatGlowDuration = value;
                     return true;
 
@@ -52,7 +40,7 @@ namespace ModRyon.Core
                     return true;
 
                 case RoleOptionDefinitions.BombardierExplosionTimeId:
-                    if (value < 1) return false;
+                    if (value < 1 || value > 60) return false;
                     RoleSettings.BombardierExplosionTime = value;
                     return true;
 
@@ -62,4 +50,3 @@ namespace ModRyon.Core
         }
     }
 }
-```
