@@ -1,21 +1,20 @@
 using HarmonyLib;
+using UnityEngine;
 
 namespace ModRyon.Core
 {
     [HarmonyPatch(typeof(Minigame), nameof(Minigame.Begin))]
     public static class TaskStartPatch
     {
+        [HarmonyPostfix]
         public static void Postfix(
             [HarmonyArgument(0)] PlayerTask task)
         {
-            if (task == null ||
-                PlayerControl.LocalPlayer == null ||
-                AmongUsClient.Instance == null)
+            if (task == null)
                 return;
 
-            TaskStartRpc.Send(
-                task.Id,
-                PlayerControl.LocalPlayer.PlayerId
+            Debug.Log(
+                $"[Mod-Ryon] タスク開始を検出！ ID: {task.Id}"
             );
         }
     }
