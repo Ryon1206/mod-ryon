@@ -10,13 +10,16 @@ namespace ModRyon.Core
     {
         public static void Prefix()
         {
-            if (AmongUsClient.Instance == null ||
-                !AmongUsClient.Instance.AmHost)
+            if (AmongUsClient.Instance == null)
+                return;
+
+            if (!AmongUsClient.Instance.AmHost)
                 return;
 
             RoleAssignmentService.ResetMatch();
             BatRuntimeState.Clear();
             BombardierRuntimeState.Clear();
+            TaskStartNotification.Clear();
         }
     }
 }
