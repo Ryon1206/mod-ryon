@@ -11,6 +11,7 @@ namespace ModRyon.Core
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.HandleRpc))]
     public static class CustomRoleRpc
     {
+        [HarmonyPostfix]
         public static void Postfix(
             PlayerControl __instance,
             [HarmonyArgument(0)] byte callId,
@@ -23,12 +24,25 @@ namespace ModRyon.Core
             CustomRole role = (CustomRole)reader.ReadByte();
 
             RoleManager.Assign(playerId, role);
+
+            if (PlayerControl.LocalPlayer == null)
+                return;
+
+            if (PlayerControl.LocalPlayer.PlayerId != playerId)
+                return;
+
+            RoleDescriptionNotifier.Show(role);
         }
 
         public static void Send(byte playerId, CustomRole role)
         {
-            if (AmongUsClient.Instance == null ||
-                !AmongUsClient.Instance.AmHost)
+            if (AmongUsClient.Instance == null)
+                return;
+
+            if (!AmongUsClient.Instance.AmHost)
+                return;
+
+            if (PlayerControl.LocalPlayer == null)
                 return;
 
             var writer = AmongUsClient.Instance.StartRpcImmediately(
