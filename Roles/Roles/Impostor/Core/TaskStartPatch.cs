@@ -1,5 +1,4 @@
 using HarmonyLib;
-using UnityEngine;
 
 namespace ModRyon.Core
 {
@@ -13,9 +12,7 @@ namespace ModRyon.Core
             if (task == null)
                 return;
 
-            Debug.Log(
-                $"[Mod-Ryon] タスク開始を検出！ ID: {task.Id}"
-            );
+            TaskStartNotification.Show(task.Id);
         }
     }
 }
