@@ -12,6 +12,7 @@ namespace ModRyon.Core
 
         // 爆弾魔
         public static int BombardierCount { get; set; } = 1;
+        public static int BombardierBombCount { get; set; } = 2;
         public static int BombardierExplosionTime { get; set; } = 10;
     }
 }
