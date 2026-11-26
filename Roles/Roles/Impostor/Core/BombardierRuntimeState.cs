@@ -17,12 +17,16 @@ namespace ModRyon.Core
             byte playerId,
             int explosionTime)
         {
-            if (!PlacedBombs.Remove(taskId))
-                return false;
-
             if (ActiveBombs.ContainsKey(playerId))
                 return false;
 
+            if (!PlacedBombs.Contains(taskId))
+                return false;
+
+            if (explosionTime <= 0)
+                return false;
+
+            PlacedBombs.Remove(taskId);
             ActiveBombs[playerId] = explosionTime;
             return true;
         }
