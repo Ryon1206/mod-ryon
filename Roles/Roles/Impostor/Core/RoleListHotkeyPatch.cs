@@ -6,19 +6,23 @@ namespace ModRyon.Core
     [HarmonyPatch(typeof(HudManager), nameof(HudManager.Update))]
     public static class RoleListHotkeyPatch
     {
+        private static float nextUseTime;
+
         [HarmonyPostfix]
         public static void Postfix()
         {
-            if (AmongUsClient.Instance == null)
+            if (AmongUsClient.Instance == null ||
+                !AmongUsClient.Instance.IsGameStarted)
                 return;
 
-            if (!AmongUsClient.Instance.IsGameStarted)
+            if (Time.time < nextUseTime)
                 return;
 
-            if (Input.GetKeyDown(KeyCode.F8))
-            {
-                RoleListNotifier.Show();
-            }
+            if (!Input.GetKeyDown(KeyCode.F8))
+                return;
+
+            nextUseTime = Time.time + 1f;
+            RoleListNotifier.Show();
         }
     }
 }
