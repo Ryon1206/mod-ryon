@@ -1,11 +1,17 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace ModRyon.Core
 {
     public static class TaskStartNotification
     {
+        private static readonly HashSet<uint> ShownTasks = new();
+
         public static void Show(uint taskId)
         {
+            if (!ShownTasks.Add(taskId))
+                return;
+
             if (HudManager.Instance == null)
                 return;
 
@@ -16,6 +22,11 @@ namespace ModRyon.Core
                 Color.white,
                 false
             );
+        }
+
+        public static void Clear()
+        {
+            ShownTasks.Clear();
         }
     }
 }
