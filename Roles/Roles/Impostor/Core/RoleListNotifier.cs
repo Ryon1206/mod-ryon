@@ -7,16 +7,20 @@ namespace ModRyon.Core
             if (PlayerControl.LocalPlayer == null)
                 return;
 
-            if (DestroyableSingleton<HudManager>.Instance == null)
+            var hud = DestroyableSingleton<HudManager>.Instance;
+
+            if (hud == null || hud.Chat == null)
                 return;
 
             string message = RoleListFormatter.Create();
 
-            DestroyableSingleton<HudManager>
-                .Instance.Chat.AddChat(
-                    PlayerControl.LocalPlayer,
-                    message
-                );
+            if (string.IsNullOrWhiteSpace(message))
+                return;
+
+            hud.Chat.AddChat(
+                PlayerControl.LocalPlayer,
+                message
+            );
         }
     }
 }
