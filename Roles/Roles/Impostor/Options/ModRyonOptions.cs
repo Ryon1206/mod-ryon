@@ -8,18 +8,18 @@ namespace ModRyon.Options
     {
         public override string GroupName => "Mod-Ryon";
         public override Color GroupColor => Color.white;
-        public override uint GroupPriority => 0;
+        public override bool ShowInMatchInfoGuide => true;
 
-        [ModdedNumberOption("こうもりの人数", 0, 15)]
+        [ModdedNumberOption("こうもりの人数", min: 0, max: 15)]
         public float BatCount { get; set; } = 1f;
 
-        [ModdedNumberOption("こうもりの発光時間", 3, 30)]
+        [ModdedNumberOption("こうもりの発光時間", min: 3, max: 30)]
         public float BatGlowDuration { get; set; } = 5f;
 
-        [ModdedNumberOption("爆弾魔の人数", 0, 15)]
+        [ModdedNumberOption("爆弾魔の人数", min: 0, max: 15)]
         public float BombardierCount { get; set; } = 1f;
 
-        [ModdedNumberOption("タスク通知時間", 1, 30)]
+        [ModdedNumberOption("タスク通知時間", min: 1, max: 30)]
         public float TaskNoticeDuration { get; set; } = 5f;
     }
 }
