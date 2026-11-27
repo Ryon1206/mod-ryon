@@ -13,7 +13,10 @@ namespace ModRyon.Core
         {
             if (AmongUsClient.Instance == null ||
                 !AmongUsClient.Instance.IsGameStarted)
+            {
+                nextUseTime = 0f;
                 return;
+            }
 
             if (Time.time < nextUseTime)
                 return;
@@ -23,6 +26,11 @@ namespace ModRyon.Core
 
             nextUseTime = Time.time + 1f;
             RoleListNotifier.Show();
+        }
+
+        public static void Reset()
+        {
+            nextUseTime = 0f;
         }
     }
 }
