@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Reference Include="$(AmongUs)\BepInEx\core\*.dll" />
     <Reference Include="$(AmongUs)\BepInEx\interop\*.dll" />
+    <PackageReference Include="AllOfUs.MiraAPI" Version="0.6.1" />
   </ItemGroup>
 </Project>
