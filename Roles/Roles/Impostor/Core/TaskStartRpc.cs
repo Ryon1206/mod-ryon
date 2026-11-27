@@ -11,6 +11,7 @@ namespace ModRyon.Core
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.HandleRpc))]
     public static class TaskStartRpc
     {
+        [HarmonyPostfix]
         public static void Postfix(
             [HarmonyArgument(0)] byte callId,
             [HarmonyArgument(1)] MessageReader reader)
@@ -19,20 +20,11 @@ namespace ModRyon.Core
                 return;
 
             uint taskId = reader.ReadUInt32();
-            byte playerId = reader.ReadByte();
 
-            if (AmongUsClient.Instance == null ||
-                !AmongUsClient.Instance.AmHost)
-                return;
-
-            BombardierRuntimeState.OnTaskStarted(
-                taskId,
-                playerId,
-                RoleSettings.BombardierExplosionTime
-            );
+            TaskStartNotification.Show(taskId);
         }
 
-        public static void Send(uint taskId, byte playerId)
+        public static void Send(uint taskId)
         {
             if (AmongUsClient.Instance == null ||
                 PlayerControl.LocalPlayer == null)
@@ -40,11 +32,7 @@ namespace ModRyon.Core
 
             if (AmongUsClient.Instance.AmHost)
             {
-                BombardierRuntimeState.OnTaskStarted(
-                    taskId,
-                    playerId,
-                    RoleSettings.BombardierExplosionTime
-                );
+                TaskStartNotification.Show(taskId);
                 return;
             }
 
@@ -55,7 +43,6 @@ namespace ModRyon.Core
             );
 
             writer.Write(taskId);
-            writer.Write(playerId);
 
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
