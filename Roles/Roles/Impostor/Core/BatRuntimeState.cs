@@ -4,46 +4,13 @@ namespace ModRyon.Core
 {
     public static class BatRuntimeState
     {
-        private static readonly Dictionary<byte, float> PendingDeaths = new();
         private static readonly Dictionary<byte, float> GlowTimers = new();
 
-        public static bool MarkTarget(byte targetId, int delay)
+        public static void StartGlow(byte playerId, float duration)
         {
-            if (PendingDeaths.ContainsKey(targetId))
-                return false;
+            if (duration <= 0f)
+                return;
 
-            PendingDeaths[targetId] = delay;
-            return true;
-        }
-
-        public static List<byte> TickDeaths(float deltaTime, bool meeting)
-        {
-            var expired = new List<byte>();
-
-            if (meeting)
-            {
-                PendingDeaths.Clear();
-                return expired;
-            }
-
-            var targets = new List<byte>(PendingDeaths.Keys);
-
-            foreach (byte targetId in targets)
-            {
-                PendingDeaths[targetId] -= deltaTime;
-
-                if (PendingDeaths[targetId] <= 0f)
-                {
-                    expired.Add(targetId);
-                    PendingDeaths.Remove(targetId);
-                }
-            }
-
-            return expired;
-        }
-
-        public static void StartGlow(byte playerId, int duration)
-        {
             GlowTimers[playerId] = duration;
         }
 
@@ -60,16 +27,13 @@ namespace ModRyon.Core
                 return expired;
             }
 
-            if (inVent)
+            if (inVent || deltaTime <= 0f)
                 return expired;
 
             var players = new List<byte>(GlowTimers.Keys);
 
             foreach (byte playerId in players)
             {
-                if (GlowTimers[playerId] < 0f)
-                    continue;
-
                 GlowTimers[playerId] -= deltaTime;
 
                 if (GlowTimers[playerId] <= 0f)
@@ -89,7 +53,6 @@ namespace ModRyon.Core
 
         public static void Clear()
         {
-            PendingDeaths.Clear();
             GlowTimers.Clear();
         }
     }
