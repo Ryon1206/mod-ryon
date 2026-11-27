@@ -19,12 +19,9 @@ namespace ModRyon.Core
                 return;
 
             RoleSettings.BatCount = reader.ReadInt32();
-            RoleSettings.BatDeathDelay = reader.ReadInt32();
             RoleSettings.BatGlowDuration = reader.ReadInt32();
-
             RoleSettings.BombardierCount = reader.ReadInt32();
-            RoleSettings.BombardierBombCount = reader.ReadInt32();
-            RoleSettings.BombardierExplosionTime = reader.ReadInt32();
+            RoleSettings.TaskNoticeDuration = reader.ReadInt32();
         }
 
         public static void Send()
@@ -41,12 +38,9 @@ namespace ModRyon.Core
             );
 
             writer.Write(RoleSettings.BatCount);
-            writer.Write(RoleSettings.BatDeathDelay);
             writer.Write(RoleSettings.BatGlowDuration);
-
             writer.Write(RoleSettings.BombardierCount);
-            writer.Write(RoleSettings.BombardierBombCount);
-            writer.Write(RoleSettings.BombardierExplosionTime);
+            writer.Write(RoleSettings.TaskNoticeDuration);
 
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
